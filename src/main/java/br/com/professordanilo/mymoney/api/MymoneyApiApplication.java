@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 import br.com.professordanilo.mymoney.api.config.property.MyMoneyApiProperty;
 
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 @EnableConfigurationProperties(MyMoneyApiProperty.class)
 public class MymoneyApiApplication {
 
