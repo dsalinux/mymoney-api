@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-@Profile("oauth-security")
+//@Profile("oauth-security")
 @Configuration
 @EnableAuthorizationServer
 public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapter{
