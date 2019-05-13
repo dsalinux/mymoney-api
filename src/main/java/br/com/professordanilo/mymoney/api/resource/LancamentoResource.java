@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.professordanilo.mymoney.api.event.RecursoCriadoEvent;
 import br.com.professordanilo.mymoney.api.exceptionhandler.MyMoneyExceptionHandler.Error;
 import br.com.professordanilo.mymoney.api.model.Lancamento;
+import br.com.professordanilo.mymoney.api.model.Pessoa;
 import br.com.professordanilo.mymoney.api.repository.LancamentoRepository;
 import br.com.professordanilo.mymoney.api.repository.filter.LancamentoFilter;
 import br.com.professordanilo.mymoney.api.repository.projection.ResumoLancamento;
@@ -70,6 +72,11 @@ public class LancamentoResource {
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamentoSalva.getCodigo()));
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(lancamentoSalva);
+	}
+	
+	@PutMapping("/{codigo}")
+	public ResponseEntity<Lancamento> atualizar(@PathVariable Long codigo, @Valid @RequestBody Lancamento lancamento){
+		return ResponseEntity.ok(lancamentoService.atualizar(codigo, lancamento));
 	}
 	
 	@GetMapping("/{codigo}")
