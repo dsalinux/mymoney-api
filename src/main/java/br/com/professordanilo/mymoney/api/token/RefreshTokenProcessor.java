@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -19,13 +20,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import br.com.professordanilo.mymoney.api.config.property.MyMoneyApiProperty;
 
+@Profile("oauth-security")
 @ControllerAdvice
 public class RefreshTokenProcessor implements ResponseBodyAdvice<OAuth2AccessToken>{
 
 	@Autowired
 	private MyMoneyApiProperty myMoneyApiProperty;
 	
-	@Override
+	@Override	
 	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
 		return returnType.getMethod().getName().equals("postAccessToken");
 	}

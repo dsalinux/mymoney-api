@@ -1,5 +1,7 @@
 package br.com.professordanilo.mymoney.api.service;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -50,11 +52,11 @@ public class LancamentoService {
 	}
 	
 	public Lancamento buscarLancamentoExistente(Long codigo) {
-		Lancamento lancamentoSalvo = lancamentoRepository.findOne(codigo);
-		if(lancamentoSalvo == null) {
+		Optional<Lancamento> lancamentoSalvo = lancamentoRepository.findById(codigo);
+		if(!lancamentoSalvo.isPresent()) {
 			throw new IllegalArgumentException();
 		}
-		return lancamentoSalvo;
+		return lancamentoSalvo.get();
 	}
 	
 }

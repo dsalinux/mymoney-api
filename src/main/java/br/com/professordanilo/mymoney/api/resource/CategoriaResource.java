@@ -52,11 +52,8 @@ public class CategoriaResource {
 	@GetMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
 	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
-		Categoria categoria = categoriaRepository.findOne(codigo);
-		if(categoria == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(categoria);
+		Optional<Categoria> categoria = categoriaRepository.findById(codigo);
+		return categoria.isPresent()?ResponseEntity.ok(categoria.get()):ResponseEntity.notFound().build();
 		
 	}
 	
@@ -64,7 +61,7 @@ public class CategoriaResource {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
 	public void remover(@PathVariable Long codigo) {
-		categoriaRepository.delete(codigo);
+		categoriaRepository.deleteById(codigo);
 		
 	}
 }

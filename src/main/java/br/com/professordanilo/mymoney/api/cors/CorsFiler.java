@@ -27,21 +27,22 @@ public class CorsFiler implements Filter{
 	
 	
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse resp = (HttpServletResponse) response;
+		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) resp;
 		
-		resp.setHeader("Access-Control-Allow-Origin", moneyApiProperty.getOrigemPermitida());
-		resp.setHeader("Access-Control-Allow-Credentials", "true");
-		
-		if("OPTIONS".equals(req.getMethod()) && moneyApiProperty.getOrigemPermitida().equals(request.getAttribute("Origin"))) {
-			resp.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
-			resp.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
-			resp.setHeader("Access-Control-Max-Age", "3600");
-			resp.setStatus(HttpServletResponse.SC_OK);
+		response.setHeader("Access-Control-Allow-Origin", moneyApiProperty.getOrigemPermitida());
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        
+		if ("OPTIONS".equals(request.getMethod()) && moneyApiProperty.getOrigemPermitida().equals(request.getHeader("Origin"))) {
+			response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
+        	response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
+        	response.setHeader("Access-Control-Max-Age", "3600");
+			
+			response.setStatus(HttpServletResponse.SC_OK);
 		} else {
-			chain.doFilter(request, response);
+			chain.doFilter(req, resp);
 		}
 	}
 

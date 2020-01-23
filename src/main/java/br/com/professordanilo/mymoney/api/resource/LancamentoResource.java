@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.professordanilo.mymoney.api.event.RecursoCriadoEvent;
 import br.com.professordanilo.mymoney.api.exceptionhandler.MyMoneyExceptionHandler.Error;
 import br.com.professordanilo.mymoney.api.model.Lancamento;
-import br.com.professordanilo.mymoney.api.model.Pessoa;
 import br.com.professordanilo.mymoney.api.repository.LancamentoRepository;
 import br.com.professordanilo.mymoney.api.repository.filter.LancamentoFilter;
 import br.com.professordanilo.mymoney.api.repository.projection.ResumoLancamento;
@@ -82,11 +81,8 @@ public class LancamentoResource {
 	@GetMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public ResponseEntity<Lancamento> buscarPeloCodigo(@PathVariable Long codigo) {
-		Lancamento lancamento = lancamentoRepository.findOne(codigo);
-		if(lancamento == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(lancamento);
+		Optional<Lancamento> lancamento = lancamentoRepository.findById(codigo);
+		return lancamento.isPresent()?ResponseEntity.ok(lancamento.get()):ResponseEntity.notFound().build();
 		
 	}
 	
@@ -94,7 +90,7 @@ public class LancamentoResource {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
 	public void remover(@PathVariable Long codigo) {
-		lancamentoRepository.delete(codigo);
+		lancamentoRepository.deleteById(codigo);
 		
 	}
 	
