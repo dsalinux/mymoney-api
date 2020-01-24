@@ -38,7 +38,7 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
 			.secret("$2a$10$DGTC1.iUA8oaaEBFNPswJO1WPHYsDLYJ/gZNDqrYiCUV1x/WAmqlK")
 			.scopes("write", "read")//senha: angular
 			.authorizedGrantTypes("password", "refresh_token")
-			.accessTokenValiditySeconds(50)//1800
+			.accessTokenValiditySeconds(1800)//1800
 			.refreshTokenValiditySeconds(3600*24*5)//3600 = 1 hora * 24 = 1 dia * 5 = 5 dias  
 		.and()
 			.withClient("mobile")
